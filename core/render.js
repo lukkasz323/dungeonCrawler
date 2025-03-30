@@ -21,7 +21,7 @@ function renderWorld(ctx, scene) {
     renderRect(ctx, null, "red", depth0.origin.x, depth0.origin.y, depth0.size.x, depth0.size.y);
     renderRect(ctx, null, "red", depth1.origin.x, depth1.origin.y, depth1.size.x, depth1.size.y);
     renderRect(ctx, null, "red", depth2.origin.x, depth2.origin.y, depth2.size.x, depth2.size.y);
-    renderDepthDiagonals(ctx, depth0, depth1);
+    renderDepthDiagonals(ctx, depth0, depth2);
 }
 function renderDepthDiagonals(ctx, outer, inner) {
     // Top left

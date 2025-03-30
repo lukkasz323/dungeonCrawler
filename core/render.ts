@@ -31,7 +31,7 @@ function renderWorld(ctx: CanvasRenderingContext2D, scene: Scene) {
     renderRect(ctx, null, "red", depth1.origin.x, depth1.origin.y, depth1.size.x, depth1.size.y);
     renderRect(ctx, null, "red", depth2.origin.x, depth2.origin.y, depth2.size.x, depth2.size.y);
     
-    renderDepthDiagonals(ctx, depth0, depth1);
+    renderDepthDiagonals(ctx, depth0, depth2);
 }
 
 function renderDepthDiagonals(ctx: CanvasRenderingContext2D, outer: Rect, inner: Rect) {
