@@ -9,9 +9,6 @@ export function renderGame(scene: Scene, input: Input, canvas: HTMLCanvasElement
     const ctx = canvas.getContext("2d");
 
     renderBackground(ctx, canvas);
-    renderProgressBars(ctx, scene);
-    renderUI(ctx, scene);
-    renderStats(ctx, scene);
     renderDebug(ctx, scene, input);
 }
 

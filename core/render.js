@@ -3,9 +3,6 @@ import { CTX_FONT, FONT, FONT_SIZE } from "./constants.js";
 export function renderGame(scene, input, canvas) {
     const ctx = canvas.getContext("2d");
     renderBackground(ctx, canvas);
-    renderProgressBars(ctx, scene);
-    renderUI(ctx, scene);
-    renderStats(ctx, scene);
     renderDebug(ctx, scene, input);
 }
 function renderDebug(ctx, scene, input) {
