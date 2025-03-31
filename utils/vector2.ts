@@ -3,6 +3,10 @@ export type Vector2 = {
     y: number,
 }
 
+export function equalsVector2(a: Vector2, b: Vector2): boolean {
+    return a.x === b.x && a.y === b.y;
+}
+
 export function sumVector2(a: Vector2, b: Vector2): Vector2 {
     return {x: a.x + b.x, y: a.y + b.y}
 }

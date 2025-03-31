@@ -1,10 +1,12 @@
 import { degreesToRadians } from "../utils/utils.js";
-import { Vector2 } from "../utils/vector2.js";
+import { equalsVector2, sumVector2, Vector2 } from "../utils/vector2.js";
 import { CTX_FONT, FONT, FONT_SIZE } from "./constants.js";
 import { Input } from "./scene/input.js";
 import { Scene } from "./scene/scene.js";
 import { IQuantity } from "./scene/items/iQuantity.js";
 import { Rect } from "./rect.js";
+import { offsetByDirection } from "./scene/offsetByDirection.js";
+import { Direction, getLeftDirection, getRightDirection } from "./scene/direction.js";
 
 export function renderGame(scene: Scene, input: Input, canvas: HTMLCanvasElement) {
     const ctx = canvas.getContext("2d");
@@ -27,11 +29,34 @@ function renderWorld(ctx: CanvasRenderingContext2D, scene: Scene) {
     const depth0: Rect = { origin: { x: 0, y: 0 }, size: {x: ctx.canvas.width, y: ctx.canvas.height } };
     const depth1: Rect = { origin: { x: ctx.canvas.width / 4, y: ctx.canvas.height / 4 }, size: {x: ctx.canvas.width / 2, y: ctx.canvas.height / 2 } };
     const depth2: Rect = { origin: { x: ctx.canvas.width / 4 + ctx.canvas.width / 8, y: ctx.canvas.height / 4 + ctx.canvas.height / 8}, size: {x: ctx.canvas.width / 4, y: ctx.canvas.height / 4 } };
-    renderRect(ctx, null, "red", depth0.origin.x, depth0.origin.y, depth0.size.x, depth0.size.y);
+
+    // Tiles:
+    // Current
     renderRect(ctx, null, "red", depth1.origin.x, depth1.origin.y, depth1.size.x, depth1.size.y);
-    renderRect(ctx, null, "red", depth2.origin.x, depth2.origin.y, depth2.size.x, depth2.size.y);
-    
-    renderDepthDiagonals(ctx, depth0, depth2);
+    renderDepthDiagonals(ctx, depth0, depth1);
+    // Front
+    if (scene.tiles.find(t => equalsVector2(t.pos, sumVector2(scene.player.pos, offsetByDirection[scene.player.direction])))) {
+        renderRect(ctx, null, "red", depth2.origin.x, depth2.origin.y, depth2.size.x, depth2.size.y);
+        renderDepthDiagonals(ctx, depth1, depth2);
+    }
+    // Left
+    if (scene.tiles.find(t => equalsVector2(t.pos, sumVector2(scene.player.pos, offsetByDirection[getLeftDirection(scene.player.direction)])))) {
+        // Top
+        ctx.moveTo(depth1.origin.x, depth1.origin.y);
+        ctx.lineTo(depth0.origin.x, depth1.origin.y);
+        //Bottom
+        ctx.moveTo(depth1.origin.x, depth1.origin.y + depth1.size.y);
+        ctx.lineTo(depth0.origin.x, depth1.origin.y + depth1.size.y);
+    }
+    // Right
+    if (scene.tiles.find(t => equalsVector2(t.pos, sumVector2(scene.player.pos, offsetByDirection[getRightDirection(scene.player.direction)])))) {
+        // Top
+        ctx.moveTo(depth1.origin.x + depth1.size.x, depth1.origin.y);
+        ctx.lineTo(depth0.size.x, depth1.origin.y);
+        //Bottom
+        ctx.moveTo(depth1.origin.x + depth1.size.x, depth1.origin.y + depth1.size.y);
+        ctx.lineTo(depth0.size.x, depth1.origin.y + depth1.size.y);
+    }
 }
 
 function renderDepthDiagonals(ctx: CanvasRenderingContext2D, outer: Rect, inner: Rect) {

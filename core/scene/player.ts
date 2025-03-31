@@ -3,5 +3,5 @@ import { Direction } from "./direction.js";
 
 export class Player {
     direction: Direction = Direction.North;
-    position: Vector2 = {x: 0, y: 0}; 
+    pos: Vector2 = {x: 0, y: 0}; 
 }
